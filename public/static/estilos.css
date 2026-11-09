@@ -1,0 +1,278 @@
+/* public/static/estilos.css
+   Diseño limpio: rojo (#AE1800), negro (#201E1D) y gris claro (#F3F2F2).
+   Se adapta a celulares. */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+
+body {
+    background-color: #F3F2F2;
+    color: #201E1D;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+    background-color: #AE1800;
+    color: #ffffff;
+    padding: 1.5rem 1rem;
+    border-bottom: 4px solid #201E1D;
+}
+
+.contenedor-cabecera {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.titulo-app {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.subtitulo {
+    font-size: 1rem;
+    opacity: 0.95;
+}
+
+/* ---------- Contenido ---------- */
+.contenido {
+    flex: 1;
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #201E1D;
+}
+
+/* ---------- Tarjetas de contadores ---------- */
+.tarjetas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.tarjeta {
+    flex: 1;
+    min-width: 140px;
+    padding: 1.25rem 1rem;
+    border-radius: 8px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.tarjeta h3 {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.tarjeta .numero {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.tarjeta.vigente { background-color: #2e7d32; }      /* verde */
+.tarjeta.por-vencer { background-color: #f9a825; }   /* ámbar */
+.tarjeta.vencida { background-color: #c62828; }      /* rojo */
+
+/* ---------- Botón descargar ---------- */
+.acciones {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.boton {
+    display: inline-block;
+    background-color: #AE1800;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.boton:hover {
+    background-color: #9a1600;
+}
+
+/* ---------- Paneles ---------- */
+.panel {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.lista-primas {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lista-primas li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #F3F2F2;
+}
+
+.lista-inconsistencias {
+    list-style: disc inside;
+    color: #c62828;
+}
+
+.vacío {
+    color: #666;
+    font-style: italic;
+}
+
+/* ---------- Tabla ---------- */
+.tabla-pólizas {
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tabla th,
+.tabla td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid #F3F2F2;
+    font-size: 0.9rem;
+}
+
+.tabla th {
+    background-color: #AE1800;
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.tabla tr:last-child td {
+    border-bottom: none;
+}
+
+/* Filas por estado */
+.fila-estado-vencida {
+    background-color: #fdecea; /* rojo claro */
+}
+
+.fila-estado-por-vencer {
+    background-color: #fff4e0; /* ámbar claro */
+}
+
+.celda-estado {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.celda-estado::after {
+    content: attr(data-estado);
+}
+
+.celda-aviso {
+    white-space: nowrap;
+}
+
+.enlace-aviso {
+    color: #AE1800;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.enlace-aviso:hover {
+    text-decoration: underline;
+}
+
+/* Etiquetas pequeñas */
+.etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.etiqueta.no-maestro {
+    background-color: #c62828;
+}
+
+.etiqueta.sin-prima {
+    background-color: #f9a825;
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+    background-color: #F3F2F2;
+    color: #201E1D;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.85rem;
+    border-top: 2px solid #AE1800;
+}
+
+/* ---------- Responsive: celular ---------- */
+@media (max-width: 600px) {
+    .contenido {
+        margin: 1rem auto;
+        padding: 0 0.75rem;
+    }
+
+    .tarjetas {
+        flex-direction: column;
+    }
+
+    .tarjeta {
+        min-width: auto;
+    }
+
+    .tabla th,
+    .tabla td {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .titulo-app {
+        font-size: 1.25rem;
+    }
+}

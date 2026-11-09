@@ -1,0 +1,19 @@
+# Entorno virtual de uv
+.venv/
+
+# Bytecode compilado
+__pycache__/
+*.py[c]
+
+# Archivos temporales y de prueba
+*.pdf
+test_*.py
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Python
+*.egg-info/
+.build/
+.coverage
