@@ -13,6 +13,16 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "Insumos_Control_Poliza
 EXCEL_PATH = os.path.join(DATA_DIR, "Maestro_Clientes.xlsx")
 POLIZAS_DIR = os.path.join(DATA_DIR, "polizas")
 
+# Ruta del Excel importado por el usuario (si la hay).
+# Si es None, se usa el Excel original de la bodega de datos (data/).
+EXCEL_IMPORTADO_PATH = None
+
+
+def establecer_excel_importado(ruta):
+    """Guarda la ruta del Excel importado por el usuario para usarlo como maestro."""
+    global EXCEL_IMPORTADO_PATH
+    EXCEL_IMPORTADO_PATH = ruta
+
 # Diccionario que mapea la etiqueta del PDF al nombre del campo interno.
 CAMPOS = {
     "Numero de poliza": "numero",
@@ -61,10 +71,12 @@ def _texto_a_numero(valor):
 
 def cargar_clientes():
     """
-    Lee Maestro_Clientes.xlsx (hoja Clientes) con pandas.
+    Lee el Excel de clientes con pandas.
+    Si hay un Excel importado por el usuario, usa ese; si no, usa el original de data/.
     Devuelve un DataFrame con Cedula como texto sin espacios.
     """
-    df = pd.read_excel(EXCEL_PATH, sheet_name="Clientes", dtype={"Cedula": str})
+    ruta = EXCEL_IMPORTADO_PATH if EXCEL_IMPORTADO_PATH else EXCEL_PATH
+    df = pd.read_excel(ruta, sheet_name="Clientes", dtype={"Cedula": str})
     if "Cedula" in df.columns:
         df["Cedula"] = df["Cedula"].astype(str).str.strip()
     return df

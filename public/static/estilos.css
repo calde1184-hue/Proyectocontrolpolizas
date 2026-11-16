@@ -116,6 +116,56 @@ h2 {
     background-color: #9a1600;
 }
 
+/* ---------- Botones de acción adicionales ---------- */
+.boton.importar {
+    background-color: #1e88e5; /* azul */
+}
+.boton.importar:hover {
+    background-color: #1565c0;
+}
+
+.boton.procesar {
+    background-color: #43a047; /* verde */
+}
+.boton.procesar:hover {
+    background-color: #2e7d32;
+}
+
+.form-importar input[type="file"] {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* ---------- Mensajes de aviso (flash) ---------- */
+.mensajes {
+    margin-bottom: 1.5rem;
+}
+
+.alerta {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    animation: aparecer 0.3s ease;
+}
+
+.alerta-exito {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.alerta-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* ---------- Paneles ---------- */
 .panel {
     background-color: #ffffff;

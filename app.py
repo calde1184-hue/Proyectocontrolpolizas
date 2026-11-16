@@ -15,6 +15,9 @@ app = Flask(
     static_url_path="/static",
 )
 
+# Clave secreta para mensajes flash (avisos al usuario).
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key-cambiar-en-produccion")
+
 app.register_blueprint(bp)
 
 if __name__ == "__main__":

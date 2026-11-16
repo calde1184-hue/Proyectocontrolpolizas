@@ -3,10 +3,22 @@
 # No calcula nada: solo llama a models/ y services/ y devuelve respuestas HTTP.
 
 import io
+import os
 import zipfile
+from werkzeug.utils import secure_filename
 
-from flask import Blueprint, render_template, send_file, abort, request
+from flask import (
+    Blueprint,
+    render_template,
+    send_file,
+    abort,
+    request,
+    flash,
+    redirect,
+    url_for,
+)
 
+from models.datos import establecer_excel_importado
 from models.polizas import (
     FECHA_CORTE,
     calcular_resultados,
@@ -18,6 +30,10 @@ from models.polizas import (
 from services.generador_aviso import crear_aviso_pdf
 
 bp = Blueprint("polizas", __name__)
+
+# Carpeta donde se guardan los Excel importados por el usuario (fuera de data/).
+UPLOADS_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
+os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 
 @bp.route("/")
@@ -35,6 +51,47 @@ def inicio():
         inconsistencias=inconsistencias,
         fecha_corte=FECHA_CORTE,
     )
+
+
+@bp.route("/importar-excel", methods=["POST"])
+def importar_excel():
+    """
+    Recibe un archivo .xlsx subido por el usuario, lo guarda en uploads/
+    y lo establece como el Excel maestro activo para cruzar con las pólizas.
+    No toca nada dentro de data/.
+    """
+    if "archivo" not in request.files:
+        flash("No se seleccionó ningún archivo.", "error")
+        return redirect(url_for("polizas.inicio"))
+
+    archivo = request.files["archivo"]
+    if archivo.filename == "":
+        flash("Nombre de archivo vacío.", "error")
+        return redirect(url_for("polizas.inicio"))
+
+    if not archivo.filename.lower().endswith(".xlsx"):
+        flash("Solo se aceptan archivos .xlsx.", "error")
+        return redirect(url_for("polizas.inicio"))
+
+    nombre_seguro = secure_filename(archivo.filename)
+    ruta_guardado = os.path.join(UPLOADS_DIR, nombre_seguro)
+    archivo.save(ruta_guardado)
+
+    establecer_excel_importado(ruta_guardado)
+    flash(f"Excel importado correctamente: {nombre_seguro}", "exito")
+    return redirect(url_for("polizas.inicio"))
+
+
+@bp.route("/procesar", methods=["POST"])
+def procesar():
+    """
+    Vuelve a leer el Excel maestro y los PDF de pólizas, recalcula estados,
+    días para vencer, primas e inconsistencias, y refresca el tablero.
+    """
+    # Forzar recarga de datos desde el Excel activo (importado o original de data/).
+    calcular_resultados()
+    flash("Proceso completado: se recalcularon estados, primas e inconsistencias.", "exito")
+    return redirect(url_for("polizas.inicio"))
 
 
 @bp.route("/aviso/")

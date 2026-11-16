@@ -2,6 +2,28 @@
 
 {% block contenido %}
 
+<!-- Mensajes de aviso (éxito / error) -->
+{% with mensajes = get_flashed_messages(with_categories=true) %}
+{% if mensajes %}
+<section class="mensajes">
+    {% for categoria, mensaje in mensajes %}
+    <div class="alerta alerta-{{ categoria }}">{{ mensaje }}</div>
+    {% endfor %}
+</section>
+{% endif %}
+{% endwith %}
+
+<section class="acciones">
+    <form method="POST" action="{{ url_for('polizas.importar_excel') }}" enctype="multipart/form-data" class="form-importar" style="display:inline-block; margin-right: 1rem;">
+        <input type="file" name="archivo" accept=".xlsx" required />
+        <button type="submit" class="boton importar">Importar Excel de clientes</button>
+    </form>
+    <form method="POST" action="{{ url_for('polizas.procesar') }}" style="display:inline-block; margin-right: 1rem;">
+        <button type="submit" class="boton procesar">Generar proceso</button>
+    </form>
+    <a href="{{ url_for('polizas.descargar_avisos') }}" class="boton descargar">Exportar avisos (.zip)</a>
+</section>
+
 <section class="tarjetas">
     <div class="tarjeta vigente">
         <h3>Vigentes</h3>
